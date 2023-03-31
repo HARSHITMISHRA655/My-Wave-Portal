@@ -1,34 +1,28 @@
 const main = async () => {
-  const waveContractFactory = await hre.ethers.getContractFactory("WavePortal");
+  const waveContractFactory = await hre.ethers.getContractFactory('WavePortal');
   const waveContract = await waveContractFactory.deploy({
-    value: hre.ethers.utils.parseEther("0.1"),
+    value: hre.ethers.utils.parseEther('0.1'),
   });
   await waveContract.deployed();
-  console.log("Contract addy:", waveContract.address);
+  console.log('Contract addy:', waveContract.address);
 
-  /*
-   * Get Contract balance
-   */
   let contractBalance = await hre.ethers.provider.getBalance(
     waveContract.address
   );
   console.log(
-    "Contract balance:",
+    'Contract balance:',
     hre.ethers.utils.formatEther(contractBalance)
   );
 
-  /*
-   * Send Wave
-   */
-  let waveTxn = await waveContract.wave("A message!");
+  let waveTxn = await waveContract.wave('This is wave #1');
   await waveTxn.wait();
 
-  /*
-   * Get Contract balance to see what happened!
-   */
-  contractBalance = await hre.ethers.provider.getBalance(waveContract.address);
+  waveTxn = await waveContract.wave('This is wave #2');
+  await waveTxn.wait();
+
+  contractBalance = await hre.ethers.provider.getBalance(waveContract.addresss);
   console.log(
-    "Contract balance:",
+    'Contract balance:',
     hre.ethers.utils.formatEther(contractBalance)
   );
 
